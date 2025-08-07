@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Role Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- FontAwesome -->
+</head>
+<body class="bg-gray-100">
+
+<!-- Navbar -->
+<div class="bg-gray-200 py-4 pb-6">
+  <div class="container mx-auto flex justify-between items-center px-4 relative">
+    <div class="flex items-center space-x-4">
+      <a href="/beranda_admin" class="font-bold block py-2 px-4 rounded hover:bg-gray-200">BERANDA</a>
+      <!-- Dropdown Master -->
+      <div class="relative">
+        <button onclick="toggleDropdown()" class="font-bold block py-2 px-4 rounded hover:bg-gray-200">
+          MASTER ▼
+        </button>
+        <div id="masterMenu" class="hidden absolute left-0 mt-2 w-44 bg-white rounded shadow border z-10">
+          <a href="/kelolauser_admin" class="block py-2 px-4 rounded hover:bg-gray-200">User</a>
+          <a href="/kelolarole_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Role</a>
+          <a href="/kelolakategori_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Kategori</a>
+          <a href="/keloladepartemen_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Departemen</a>
+          <a href="/kelolakaryawan_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Karyawan</a>
+          <a href="/kelolastaff_it_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Staff IT</a>
+          <a href="/kelolavendor_admin" class="block py-2 px-4 rounded hover:bg-gray-200">Vendor</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Icon -->
+    <div class="flex items-center space-x-2">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="admin icon" class="w-6 h-6">
+      <span class="font-medium">Admin</span>
+      <a href="/login" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</a>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="container mx-auto px-4 py-4"> 
+  <h1 class="text-4xl font-bold text-gray-800 mb-1">Role</h1>
+  <p class="text-xl mb-4">Welcome, Admin</p>
+
+  <div class="flex justify-between items-center mb-4">
+    <!-- Tombol Tambah Role -->
+    <a href="/auth/tambahrole_admin" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+      Tambah Role
+    </a>
+
+    <!-- Kolom Pencarian -->
+    <input type="text" id="searchInput" placeholder="Cari Kategori"
+           class="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-64">
+  </div>
+
+  <div class="w-full bg-white shadow rounded-lg overflow-x-auto">
+    <table class="w-full table-auto">
+      <thead class="bg-gray-100 border-b">
+      <tr>
+        <th class="px-4 py-2 text-center text-sm font-semibold text-gray-700">ID Role</th>
+        <th class="px-4 py-2 text-center text-sm font-semibold text-gray-700">Role</th>
+        <th class="px-4 py-2 text-center text-sm font-semibold text-gray-700">Aksi</th>
+      </tr>
+      </thead>
+      <tbody>
+      <?php foreach ($role as $role): ?>
+        <tr class="bg-gray-50 border-b">
+          <td class="px-4 py-2 text-center text-sm text-gray-600"><?= $role['id_role'] ?></td>
+          <td class="px-4 py-2 text-center text-sm text-gray-600"><?= $role['role'] ?></td>
+            <td class="px-4 py-2 text-center text-sm space-x-2">
+              <!-- Edit -->
+                  <a href="/auth/editrole_admin/<?= $role['id_role'] ?>"
+                  class="text-yellow-500 hover:text-yellow-600" title="Edit">
+                  <i class="fas fa-edit text-lg"></i>
+                </a>
+
+          <!-- Delete -->
+            <a href="/deleterole/<?= $role['id_role'] ?>"
+              onclick="return confirm('Yakin hapus data ini?')"
+          class="text-red-600 hover:text-red-700" title="Delete">
+          <i class="fas fa-trash-alt text-lg"></i>
+            </a>
+              </td>
+          </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  function toggleDropdown() {
+    const menu = document.getElementById('masterMenu');
+    menu.classList.toggle('hidden');
+  }
+
+  // Tutup dropdown saat klik di luar area
+  window.addEventListener('click', function (e) {
+    const dropdown = document.getElementById('masterMenu');
+    const button = document.querySelector('button[onclick="toggleDropdown()"]');
+    if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+</script>
+
+</body>
+</html>
